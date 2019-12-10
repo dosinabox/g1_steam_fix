@@ -1,0 +1,5 @@
+*.bik
+*.vdf
+*.mod
+res/*
+test/*
