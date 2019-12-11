@@ -11,12 +11,12 @@
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "11.2018"
-!define MOD_DETAILED_VERSION "18.11.27.0"
+!define MOD_VERSION "12.2019"
+!define MOD_DETAILED_VERSION "19.12.11.0"
 !define MOD_AUTHOR "D36"
 
 Name "${MOD_NAME}"
-OutFile "Gothic_Steam_Fix_11.2018.exe"
+OutFile "Gothic_Steam_Fix_${MOD_VERSION}.exe"
 
 VIProductVersion "${MOD_DETAILED_VERSION}"
 VIAddVersionKey "FileVersion" "${MOD_DETAILED_VERSION}"
@@ -28,7 +28,7 @@ VIAddVersionKey "ProductVersion" "${MOD_VERSION}"
 ##      Настройки интерфейса     ##
 ###################################
 
-!define MUI_ICON "Gothic_Steam_Fix.ico"
+!define MUI_ICON "icon.ico"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_BITMAP "logo_int.bmp"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "pic_int.bmp"
@@ -202,7 +202,6 @@ Function .onInit
 	StrCpy $RESX $0
 	StrCpy $RESY $1
 	System::Call kernel32::GetSystemDEPPolicy()i.r3
-	;MessageBox MB_OK|MB_ICONEXCLAMATION "DEP is: $3"
 	StrCmp $3 "error" skipDEP
 	IntCmp $3 ${DEP_SYSTEM_POLICY_TYPE_ALWAYSOFF} skipDEP
 	IntCmp $3 ${DEP_SYSTEM_POLICY_TYPE_OPTIN} skipDEP

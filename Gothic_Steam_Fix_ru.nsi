@@ -13,12 +13,26 @@ Unicode true
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "11.2019"
-!define MOD_DETAILED_VERSION "19.11.1.0"
+!define MOD_VERSION "12.2019"
+!define MOD_DETAILED_VERSION "19.12.11.0"
 !define MOD_AUTHOR "D36"
 
+!define SNOWBALL_SYS "snowball"
+!define SNOWBALL_DISPLAY "Snowball"
+!define SNOWBALL_DISPLAY_RU "Snowball"
+!define RUSSOBIT_SYS "russobit"
+!define RUSSOBIT_DISPLAY "Russobit-M"
+!define RUSSOBIT_DISPLAY_RU "Руссобит-М"
+
+!define MOD_LOCALE "${RUSSOBIT_SYS}"
+!define MOD_LOCALE_DISPLAY "${RUSSOBIT_DISPLAY}"
+!define MOD_LOCALE_DISPLAY_RU "${RUSSOBIT_DISPLAY_RU}"
+
+!define MOD_LOCALE_CONTRA "${SNOWBALL_SYS}"
+!define MOD_LOCALE_CONTRA_DISPLAY "${SNOWBALL_DISPLAY_RU}"
+
 Name "${MOD_NAME}"
-OutFile "Gothic_Steam_Fix_(Russobit-M)_${MOD_VERSION}.exe"
+OutFile "Gothic_Steam_Fix_(${MOD_LOCALE_DISPLAY})_${MOD_VERSION}.exe"
 
 VIProductVersion "${MOD_DETAILED_VERSION}"
 VIAddVersionKey "FileVersion" "${MOD_DETAILED_VERSION}"
@@ -30,12 +44,12 @@ VIAddVersionKey "ProductVersion" "${MOD_VERSION}"
 ##      Настройки интерфейса     ##
 ###################################
 
-!define MUI_ICON "Gothic_Steam_Fix.ico"
+!define MUI_ICON "icon.ico"
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "logo_russobit.bmp"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "pic_russobit.bmp"
+!define MUI_HEADERIMAGE_BITMAP "logo_${MOD_LOCALE}.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "pic_${MOD_LOCALE}.bmp"
 
-Caption "${MOD_NAME} (Руссобит-М)"
+Caption "${MOD_NAME} (${MOD_LOCALE_DISPLAY_RU})"
 !define MUI_TEXT_WELCOME_INFO_TITLE "$\t   $\n$\t${MOD_NAME}"
 !define MUI_TEXT_WELCOME_INFO_TEXT "Данный сборник исправлений предназначен для установки на чистую Steam-версию Gothic без других патчей и модов."
 
@@ -44,8 +58,7 @@ DirText $DirectoryText
 
 !define MUI_TEXT_COMPONENTS_TITLE "Выбор компонентов для установки"
 !define MUI_TEXT_COMPONENTS_SUBTITLE " "
-!define MUI_COMPONENTSPAGE_TEXT_TOP "Выберите компоненты ${MOD_NAME}, которые вы хотите установить.$\nНажмите кнопку \
-'Установить' для продолжения." 
+!define MUI_COMPONENTSPAGE_TEXT_TOP "Выберите компоненты ${MOD_NAME}, которые вы хотите установить.$\nНажмите кнопку 'Установить' для продолжения." 
 !define MUI_COMPONENTSPAGE_TEXT_COMPLIST "Компоненты для установки:"
 !define MUI_COMPONENTSPAGE_SMALLDESC
 
@@ -81,9 +94,9 @@ BrandingText " "
 Section "Основные патчи и обновления" SecMain
 	SectionIn RO
 
-	IfFileExists "$INSTDIR\system\snowball.rtf" file_found file_not_found
+	IfFileExists "$INSTDIR\system\${MOD_LOCALE_CONTRA}.rtf" file_found file_not_found
 	file_found:
-	MessageBox MB_OK "В выбранной папке уже установлен Gothic Steam Fix (Snowball) или его компоненты. Для продолжения:$\n$\n- удалите игру через Steam;$\n- удалите папку игры (steam/steamapps/common/gothic);$\n- скачайте игру через Steam заново;$\n- установите данный сборник;$\n- начните новую игру (сохранения Snowball не поддерживаются в версии игры от Руссобит-М).$\n$\nУстановка прервана."
+	MessageBox MB_OK "В выбранной папке уже установлен Gothic Steam Fix (${MOD_LOCALE_CONTRA_DISPLAY}) или его компоненты. Для продолжения:$\n$\n- удалите игру через Steam;$\n- удалите папку игры (steam/steamapps/common/gothic);$\n- скачайте игру через Steam заново;$\n- установите данный сборник;$\n- начните новую игру (сохранения ${MOD_LOCALE_CONTRA_DISPLAY} не поддерживаются в версии игры от ${MOD_LOCALE_DISPLAY_RU}).$\n$\nУстановка прервана."
 	quit
 	goto end_of_test
 	file_not_found:
@@ -198,39 +211,39 @@ Section "Основные патчи и обновления" SecMain
 SectionEnd
 
 
-SectionGroup /e "Русификация от Руссобит-М" Group1
+SectionGroup /e "Русификация от ${MOD_LOCALE_DISPLAY_RU}" Group1
 
 
 Section "Текст и субтитры" SecAdditional_1
 
-	CreateDirectory "$INSTDIR\saves_russobit_fix\current"
+	CreateDirectory "$INSTDIR\saves_${MOD_LOCALE}_fix\current"
 
 	!insertmacro GMF_Delete "$INSTDIR\_work\data\scripts\_compiled\ouinfo.inf"
 	!insertmacro GMF_Delete "$INSTDIR\_work\data\scripts\content\cutscene\ou.csl"
 	!insertmacro GMF_Delete "$INSTDIR\system\original.rtf"
 
 	SetOutPath "$INSTDIR\Data"
-	File "russobit_main.vdf"
+	File "${MOD_LOCALE}_main.vdf"
 
 	SetOutPath "$INSTDIR\Data\ModVDF"
-	File "russobit_fix.mod"
-	File "russobit_models.mod"
+	File "${MOD_LOCALE}_fix.mod"
+	File "${MOD_LOCALE}_models.mod"
 
 	SetOutPath "$INSTDIR"
-	File "Gothic_RussobitM_Fix_ReadMe.txt"
+	File "GothicModFix_(${MOD_LOCALE_DISPLAY})_ReadMe.txt"
 
 	SetOutPath "$INSTDIR\_work\data\scripts\_compiled"
-	!insertmacro GMF_File_Rename "menu_russobit.dat" "menu.dat"
-	!insertmacro GMF_File_Rename "gothic_russobit_original.dat" "gothic.dat"
+	!insertmacro GMF_File_Rename "menu_${MOD_LOCALE}.dat" "menu.dat"
+	!insertmacro GMF_File_Rename "gothic_${MOD_LOCALE}_original.dat" "gothic.dat"
 
 	SetOutPath "$INSTDIR\_work\data\scripts\content\cutscene"
-	!insertmacro GMF_File_Rename "OU_russobit_original.bin" "OU.bin"
+	!insertmacro GMF_File_Rename "OU_${MOD_LOCALE}_original.bin" "OU.bin"
 
 	SetOutPath "$INSTDIR\system"
-	File "russobit_fix.ini"
-	File "russobit_fix.rtf"
-	File "russobit.rtf"
-	!insertmacro GMF_File_Rename "GothicGame_russobit.ini" "GothicGame.ini"
+	File "${MOD_LOCALE}_fix.ini"
+	File "${MOD_LOCALE}_fix.rtf"
+	File "${MOD_LOCALE}.rtf"
+	!insertmacro GMF_File_Rename "GothicGame_${MOD_LOCALE}.ini" "GothicGame.ini"
 
 SectionEnd
 
@@ -240,15 +253,15 @@ Section "Озвучка и видео" SecAdditional_2
 	!insertmacro GMF_Delete "$INSTDIR\Data\speech_patch2.vdf"
 
 	SetOutPath "$INSTDIR\Data"
-	!insertmacro GMF_File_Rename "russobit_speech.vdf" "speech.vdf"
+	!insertmacro GMF_File_Rename "${MOD_LOCALE}_speech.vdf" "speech.vdf"
 
 	SetOutPath "$INSTDIR\Data\ModVDF"
-	File "russobit_fix_speech.mod"
+	File "${MOD_LOCALE}_fix_speech.mod"
 
 	SetOutPath "$INSTDIR\_work\data\video"
-	!insertmacro GMF_File_Rename "greatPrayer_russobit.bik" "greatPrayer.bik"
-	!insertmacro GMF_File_Rename "intro_russobit.bik" "intro.bik"
-	!insertmacro GMF_File_Rename "playerout_russobit.bik" "playerout.bik"
+	!insertmacro GMF_File_Rename "greatPrayer_${MOD_LOCALE}.bik" "greatPrayer.bik"
+	!insertmacro GMF_File_Rename "intro_${MOD_LOCALE}.bik" "intro.bik"
+	!insertmacro GMF_File_Rename "playerout_${MOD_LOCALE}.bik" "playerout.bik"
 
 SectionEnd
 
@@ -257,16 +270,16 @@ SectionGroupEnd
 
 
 Section "Широкоформатный монитор" SecAdditional_3
-	
+
 	SetOutPath "$INSTDIR\_work\data\video"
 	File "logo1.bik"
 
 	!insertmacro GMF_Delete "$INSTDIR\_work\data\video\logo2.bik"
 
-	IfFileExists "$INSTDIR\Data\russobit_main.vdf" russian_found russian_not_found
+	IfFileExists "$INSTDIR\Data\${MOD_LOCALE}_main.vdf" russian_found russian_not_found
 	russian_found:
 	SetOutPath "$INSTDIR\Data"
-	File "russobit_widescreen.vdf"
+	File "${MOD_LOCALE}_widescreen.vdf"
 	goto end_of_test2
 	russian_not_found:
 	SetOutPath "$INSTDIR\Data"
@@ -279,10 +292,10 @@ SectionEnd
 Section /o "Совместимость с ноутбуками" SecAdditional_4
 
 	SetOutPath "$INSTDIR\system"
-	!insertmacro GMF_File_Rename "Gothic_laptop.ini" "Gothic.ini"
-	!insertmacro GMF_File_Rename "SystemPack_laptop.ini" "SystemPack.ini"
-	!insertmacro _ReplaceInFile "Gothic.ini" "1366" "$RESX"
-	!insertmacro _ReplaceInFile "Gothic.ini" "768" "$RESY"
+	!insertmacro _ReplaceInFile "Gothic.ini" "sightValue=14" "sightValue=9"
+	!insertmacro _ReplaceInFile "Gothic.ini" "zDetailTexturesEnabled=1" "zDetailTexturesEnabled=0"
+	!insertmacro _ReplaceInFile "SystemPack.ini" "Disable_D3DVBCAPS_WRITEONLY=1" "Disable_D3DVBCAPS_WRITEONLY=0"
+	!insertmacro _ReplaceInFile "SystemPack.ini" "AnisotropicFiltering=16" "AnisotropicFiltering=0"
 
 SectionEnd
 
@@ -293,8 +306,8 @@ SectionEnd
 
 LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты Gothic Steam Fix (SystemPack, Player Kit, патч 1.08k)."
 LangString DESC_Group1 ${LANG_RUSSIAN} "Выбор компонентов русификации игры."
-LangString DESC_SecAdditional_1 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от Руссобит-М." 
-LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русскую озвучку и видео от Руссобит-М."  
+LangString DESC_SecAdditional_1 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от ${MOD_LOCALE_DISPLAY_RU}."
+LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русскую озвучку и видео от ${MOD_LOCALE_DISPLAY_RU}."
 LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если у вашего ПК широкоформатный монитор (16x9 или 16х10)." 
 LangString DESC_SecAdditional_4 ${LANG_RUSSIAN} "Выберите эту опцию, если предполагается запуск игры на ноутбуке."
 
