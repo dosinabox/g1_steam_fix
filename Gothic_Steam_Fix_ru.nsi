@@ -12,11 +12,10 @@ Unicode true
 ##            Основное           ##
 ###################################
 
-!define MOD_NAME "Gothic Steam Fix"
 !define MOD_VERSION "12.2019"
 !define MOD_DETAILED_VERSION "19.12.11.0"
+!define MOD_NAME "Gothic Steam Fix"
 !define MOD_AUTHOR "D36"
-
 !define SNOWBALL_SYS "snowball"
 !define SNOWBALL_DISPLAY "Snowball"
 !define SNOWBALL_DISPLAY_RU "Snowball"
@@ -24,12 +23,19 @@ Unicode true
 !define RUSSOBIT_DISPLAY "Russobit-M"
 !define RUSSOBIT_DISPLAY_RU "Руссобит-М"
 
-!define MOD_LOCALE "${RUSSOBIT_SYS}"
-!define MOD_LOCALE_DISPLAY "${RUSSOBIT_DISPLAY}"
-!define MOD_LOCALE_DISPLAY_RU "${RUSSOBIT_DISPLAY_RU}"
+;russobit:
+;!define MOD_LOCALE "${RUSSOBIT_SYS}"
+;!define MOD_LOCALE_DISPLAY "${RUSSOBIT_DISPLAY}"
+;!define MOD_LOCALE_DISPLAY_RU "${RUSSOBIT_DISPLAY_RU}"
+;!define MOD_LOCALE_CONTRA "${SNOWBALL_SYS}"
+;!define MOD_LOCALE_CONTRA_DISPLAY "${SNOWBALL_DISPLAY_RU}"
 
-!define MOD_LOCALE_CONTRA "${SNOWBALL_SYS}"
-!define MOD_LOCALE_CONTRA_DISPLAY "${SNOWBALL_DISPLAY_RU}"
+;snowball:
+!define MOD_LOCALE "${SNOWBALL_SYS}"
+!define MOD_LOCALE_DISPLAY "${SNOWBALL_DISPLAY}"
+!define MOD_LOCALE_DISPLAY_RU "${SNOWBALL_DISPLAY_RU}"
+!define MOD_LOCALE_CONTRA "${RUSSOBIT_SYS}"
+!define MOD_LOCALE_CONTRA_DISPLAY "${RUSSOBIT_DISPLAY_RU}"
 
 Name "${MOD_NAME}"
 OutFile "Gothic_Steam_Fix_(${MOD_LOCALE_DISPLAY})_${MOD_VERSION}.exe"
