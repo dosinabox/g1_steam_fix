@@ -11,8 +11,8 @@
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "12.2019"
-!define MOD_DETAILED_VERSION "19.12.11.0"
+!define MOD_VERSION "01.2020"
+!define MOD_DETAILED_VERSION "20.1.9.0"
 !define MOD_AUTHOR "D36"
 
 Name "${MOD_NAME}"
@@ -148,6 +148,7 @@ Section "Main" SecMain
 	File "Capture.flt"
 	File "Chorus.flt"
 	File "Compress.flt"
+	File "dinput.dll"
 	File "Flange.flt"
 	File "Gothic.exe"
 	File "Gothic.ini"
@@ -169,9 +170,9 @@ Section "Main" SecMain
 	File "SDelay.flt"
 	File "ShelfEQ.flt"
 	File "Shw32.dll"
+	File "sp.log"
 	File "vdfs32g.dll"
 	File "original.rtf"
-	File "Gothic.ini"
 	!insertmacro _ReplaceInFile "Gothic.ini" "1280" "$RESX"
 	!insertmacro _ReplaceInFile "Gothic.ini" "1024" "$RESY"
 	!insertmacro GMF_File_Rename "GothicGame_original.ini" "GothicGame.ini"

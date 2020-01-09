@@ -12,8 +12,8 @@ Unicode true
 ##            Основное           ##
 ###################################
 
-!define MOD_VERSION "12.2019"
-!define MOD_DETAILED_VERSION "19.12.11.0"
+!define MOD_VERSION "01.2020"
+!define MOD_DETAILED_VERSION "20.1.9.0"
 !define MOD_NAME "Gothic Steam Fix"
 !define MOD_AUTHOR "D36"
 !define SNOWBALL_SYS "snowball"
@@ -189,7 +189,6 @@ Section "Основные патчи и обновления" SecMain
 	File "Gothic.ini"
 	File "GothicMod.exe"
 	File "GothicStarter.exe"
-	File "GothicStarter_mod.exe"
 	File "HighPass.flt"
 	File "LaGInter.flt"
 	File "LowPass.flt"
