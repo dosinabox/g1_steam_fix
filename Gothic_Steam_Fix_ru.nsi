@@ -1,44 +1,57 @@
-###################################
-##      Подключенные хидеры      ##
-###################################
-
 Unicode true
+SetCompressor lzma
+var DirectoryText
 
 !include "MUI.nsh"
 !include "FileFunc.nsh"
-!include "GothicFixesCommon.nsh"
+
+###################################
+##            Макросы            ##
+###################################
+
+!macro GMF_File_Rename FILENAME_1 FILENAME_2
+	File "${FILENAME_1}"
+	IfFileExists "${FILENAME_2}" "" +2
+	Delete "${FILENAME_2}"
+	Rename "${FILENAME_1}" "${FILENAME_2}"
+!macroend
+
+!macro GMF_Delete FILENAME
+	IfFileExists "${FILENAME}" "" +2
+	Delete "${FILENAME}"
+!macroend
+
+###################################
+##       Режимы компиляции       ##
+###################################
+
+!define SNOWBALL_SYS "snowball"
+!define SNOWBALL_DISPLAY "Snowball"
+!define RUSSOBIT_SYS "russobit"
+!define RUSSOBIT_DISPLAY "Russobit-M"
+!define RUSSOBIT_DISPLAY_RU "Руссобит-М"
+
+# Руссобит-М:
+#!define MOD_LOCALE "${RUSSOBIT_SYS}"
+#!define MOD_LOCALE_DISPLAY "${RUSSOBIT_DISPLAY}"
+#!define MOD_LOCALE_DISPLAY_RU "${RUSSOBIT_DISPLAY_RU}"
+
+# Snowball:
+!define MOD_LOCALE "${SNOWBALL_SYS}"
+!define MOD_LOCALE_DISPLAY "${SNOWBALL_DISPLAY}"
+!define MOD_LOCALE_DISPLAY_RU "${SNOWBALL_DISPLAY}"
 
 ###################################
 ##            Основное           ##
 ###################################
 
-!define MOD_VERSION "01.2020"
-!define MOD_DETAILED_VERSION "20.1.9.0"
+!define MOD_VERSION "08.2020"
+!define MOD_DETAILED_VERSION "20.8.2.0"
 !define MOD_NAME "Gothic Steam Fix"
 !define MOD_AUTHOR "D36"
-!define SNOWBALL_SYS "snowball"
-!define SNOWBALL_DISPLAY "Snowball"
-!define SNOWBALL_DISPLAY_RU "Snowball"
-!define RUSSOBIT_SYS "russobit"
-!define RUSSOBIT_DISPLAY "Russobit-M"
-!define RUSSOBIT_DISPLAY_RU "Руссобит-М"
-
-;russobit:
-;!define MOD_LOCALE "${RUSSOBIT_SYS}"
-;!define MOD_LOCALE_DISPLAY "${RUSSOBIT_DISPLAY}"
-;!define MOD_LOCALE_DISPLAY_RU "${RUSSOBIT_DISPLAY_RU}"
-;!define MOD_LOCALE_CONTRA "${SNOWBALL_SYS}"
-;!define MOD_LOCALE_CONTRA_DISPLAY "${SNOWBALL_DISPLAY_RU}"
-
-;snowball:
-!define MOD_LOCALE "${SNOWBALL_SYS}"
-!define MOD_LOCALE_DISPLAY "${SNOWBALL_DISPLAY}"
-!define MOD_LOCALE_DISPLAY_RU "${SNOWBALL_DISPLAY_RU}"
-!define MOD_LOCALE_CONTRA "${RUSSOBIT_SYS}"
-!define MOD_LOCALE_CONTRA_DISPLAY "${RUSSOBIT_DISPLAY_RU}"
 
 Name "${MOD_NAME}"
-OutFile "Gothic_Steam_Fix_(${MOD_LOCALE_DISPLAY})_${MOD_VERSION}.exe"
+OutFile "Gothic_Steam_Fix_RU_${MOD_LOCALE_DISPLAY}_${MOD_VERSION}.exe"
 
 VIProductVersion "${MOD_DETAILED_VERSION}"
 VIAddVersionKey "FileVersion" "${MOD_DETAILED_VERSION}"
@@ -100,118 +113,51 @@ BrandingText " "
 Section "Основные патчи и обновления" SecMain
 	SectionIn RO
 
-	IfFileExists "$INSTDIR\system\${MOD_LOCALE_CONTRA}.rtf" file_found file_not_found
-	file_found:
-	MessageBox MB_OK "В выбранной папке уже установлен Gothic Steam Fix (${MOD_LOCALE_CONTRA_DISPLAY}) или его компоненты. Для продолжения:$\n$\n- удалите игру через Steam;$\n- удалите папку игры (steam/steamapps/common/gothic);$\n- скачайте игру через Steam заново;$\n- установите данный сборник;$\n- начните новую игру (сохранения ${MOD_LOCALE_CONTRA_DISPLAY} не поддерживаются в версии игры от ${MOD_LOCALE_DISPLAY_RU}).$\n$\nУстановка прервана."
-	quit
-	goto end_of_test
-	file_not_found:
-	end_of_test:
-
 	!insertmacro GMF_Delete "$INSTDIR\VDFS.dmp"
-	!insertmacro GMF_Delete "$INSTDIR\delsaves.exe"
-	!insertmacro GMF_Delete "$INSTDIR\Gothic.url"
-	!insertmacro GMF_Delete "$INSTDIR\install.log"
-	!insertmacro GMF_Delete "$INSTDIR\JoWooD.url"
-	!insertmacro GMF_Delete "$INSTDIR\Readme.htm"
-	!insertmacro GMF_Delete "$INSTDIR\Readme.txt"
-	!insertmacro GMF_Delete "$INSTDIR\UNWISE.exe"
-	!insertmacro GMF_Delete "$INSTDIR\UNWISE.ini"
+	!insertmacro GMF_Delete "$INSTDIR\system\ddraw.dll"
+	!insertmacro GMF_Delete "$INSTDIR\system\dinput.dll"
 	!insertmacro GMF_Delete "$INSTDIR\Data\textures_bikini.vdf"
 	!insertmacro GMF_Delete "$INSTDIR\Data\textures_apostroph_patch_neu.vdf"
 	!insertmacro GMF_Delete "$INSTDIR\Data\textures_choicebox_32pixel_modialpha.vdf"
 	!insertmacro GMF_Delete "$INSTDIR\Data\Gothic_Mod_Fix_Beta.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\OrcTempelPatch.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\sndpatch.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\Breitbild_Patch.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\MENU_AutoScale_G1.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\FONT_High_Resolution.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\FONT_High_Resolution_1.1.0.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\FONT_High_Resolution_2.0.2.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\FONT_High_Resolution_2.0.3.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\FONT_High_Resolution_2.1.0.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\FONT_High_Resolution_2.2.0.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\FONT_High_Resolution_2.2.1.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\system\dmband.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\dmcompos.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\dmime.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\dmloader.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\dmstyle.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\dmsynth.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\dmusic.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\gothic.rpt"
-	!insertmacro GMF_Delete "$INSTDIR\system\KillHelp.exe"
-	!insertmacro GMF_Delete "$INSTDIR\system\MssDS3D.m3d.exe"
-	!insertmacro GMF_Delete "$INSTDIR\system\D3dim700.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\D3DImm.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\DMusic.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\GEngine.exe"
-	!insertmacro GMF_Delete "$INSTDIR\system\GEngine.ini"
-	!insertmacro GMF_Delete "$INSTDIR\system\GEngineStarter.exe"
-	!insertmacro GMF_Delete "$INSTDIR\system\GEngineStarter_mod.exe"
-	!insertmacro GMF_Delete "$INSTDIR\system\AntTweakBar.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\Assimp32.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\d3dcompiler_47.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\ddraw.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\GFSDK_SSAO.win32.dll"
+	!insertmacro GMF_Delete "$INSTDIR\Data\SystemPack.vdf"
+	!insertmacro GMF_Delete "$INSTDIR\_work\data\video\logo2.bik"
 
 	CreateDirectory "$INSTDIR\_work\data\textures\_compiled"
 	CreateDirectory "$INSTDIR\Saves\Current"
 
 	SetOutPath "$INSTDIR"
-	File "VDFS.cfg"
-	File "SystemPack - Форум.url"
+	File "Union.url"
+
+	SetOutPath "$INSTDIR\_work\data\video"
+	File "logo1.bik"
 
 	SetOutPath "$INSTDIR\Data"
-	File "SystemPack.vdf"
-
-	SetOutPath "$INSTDIR\Miles"
-	File "MssA3D.m3d"
-	File "MssA3D2.m3d"
-	File "MssDolby.m3d"
-	File "MssDS3Dh.m3d"
-	File "MssDS3Ds.m3d"
-	File "MssDX7sh.m3d"
-	File "MssDX7sl.m3d"
-	File "MssDX7sn.m3d"
-	File "MssEAX.m3d"
-	File "MssEAX2.m3d"
-	File "MssFast.m3d"
-	File "MssRSX.m3d"
+	File "Union.vdf"
 
 	SetOutPath "$INSTDIR\system"
-	File "AutoPan.flt"
-	File "Capture.flt"
-	File "Chorus.flt"
-	File "Compress.flt"
-	File "Flange.flt"
+	File "binkw32.dll"
 	File "Gothic.exe"
 	File "Gothic.ini"
 	File "GothicMod.exe"
 	File "GothicStarter.exe"
-	File "HighPass.flt"
-	File "LaGInter.flt"
-	File "LowPass.flt"
-	File "MDelay.flt"
-	File "MP3Dec.asi"
-	File "Mss32.dll"
-	File "MssV12.asi"
-	File "MssV24.asi"
-	File "MssV29.asi"
-	File "ParmEQ.flt"
-	File "Reverb1.flt"
-	File "Reverb2.flt"
-	File "Reverb3.flt"
-	File "SDelay.flt"
-	File "ShelfEQ.flt"
 	File "Shw32.dll"
-	File "sp.log"
 	File "SystemPack.ini"
 	File "vdfs32g.dll"
-	File "original.rtf"
-	!insertmacro GMF_File_Rename "GothicGame_original.ini" "GothicGame.ini"
-	!insertmacro _ReplaceInFile "Gothic.ini" "1280" "$RESX"
-	!insertmacro _ReplaceInFile "Gothic.ini" "1024" "$RESY"
+	File "Union.patch"
+	File "${MOD_LOCALE}.rtf"
+	!insertmacro GMF_File_Rename "GothicGame_${MOD_LOCALE}.ini" "GothicGame.ini"
+
+	SetOutPath "$INSTDIR\system\autorun"
+	File "AutoScreenRes.dll"
+
+SectionEnd
+
+
+Section /o "Расширение доступной памяти" SecAdditional_1
+
+	SetOutPath "$INSTDIR\system"
+	!insertmacro GMF_File_Rename "GothicMod_4gb.exe" "GothicMod.exe"
 
 SectionEnd
 
@@ -219,13 +165,9 @@ SectionEnd
 SectionGroup /e "Русификация от ${MOD_LOCALE_DISPLAY_RU}" Group1
 
 
-Section "Текст и субтитры" SecAdditional_1
+Section "Текст и субтитры" SecAdditional_2
 
 	CreateDirectory "$INSTDIR\saves_${MOD_LOCALE}_fix\current"
-
-	!insertmacro GMF_Delete "$INSTDIR\_work\data\scripts\_compiled\ouinfo.inf"
-	!insertmacro GMF_Delete "$INSTDIR\_work\data\scripts\content\cutscene\ou.csl"
-	!insertmacro GMF_Delete "$INSTDIR\system\original.rtf"
 
 	SetOutPath "$INSTDIR\Data"
 	File "${MOD_LOCALE}_main.vdf"
@@ -238,21 +180,20 @@ Section "Текст и субтитры" SecAdditional_1
 	File "GothicModFix_(${MOD_LOCALE_DISPLAY})_ReadMe.txt"
 
 	SetOutPath "$INSTDIR\_work\data\scripts\_compiled"
-	!insertmacro GMF_File_Rename "menu_${MOD_LOCALE}.dat" "menu.dat"
-	!insertmacro GMF_File_Rename "gothic_${MOD_LOCALE}_original.dat" "gothic.dat"
+	!insertmacro GMF_File_Rename "menu_${MOD_LOCALE}.dat" "MENU.DAT"
+	!insertmacro GMF_File_Rename "gothic_${MOD_LOCALE}_original.dat" "GOTHIC.DAT"
 
 	SetOutPath "$INSTDIR\_work\data\scripts\content\cutscene"
-	!insertmacro GMF_File_Rename "OU_${MOD_LOCALE}_original.bin" "OU.bin"
+	!insertmacro GMF_File_Rename "OU_${MOD_LOCALE}_original.bin" "OU.BIN"
 
 	SetOutPath "$INSTDIR\system"
 	File "${MOD_LOCALE}_fix.ini"
 	File "${MOD_LOCALE}_fix.rtf"
-	File "${MOD_LOCALE}.rtf"
-	!insertmacro GMF_File_Rename "GothicGame_${MOD_LOCALE}.ini" "GothicGame.ini"
 
 SectionEnd
 
-Section "Озвучка и видео" SecAdditional_2
+
+Section "Озвучка и видео" SecAdditional_3
 	
 	!insertmacro GMF_Delete "$INSTDIR\Data\speech_babe_speech_engl.vdf"
 	!insertmacro GMF_Delete "$INSTDIR\Data\speech_patch2.vdf"
@@ -270,51 +211,18 @@ Section "Озвучка и видео" SecAdditional_2
 
 SectionEnd
 
-
 SectionGroupEnd
-
-
-Section "Широкоформатный монитор" SecAdditional_3
-
-	SetOutPath "$INSTDIR\_work\data\video"
-	File "logo1.bik"
-
-	!insertmacro GMF_Delete "$INSTDIR\_work\data\video\logo2.bik"
-
-	IfFileExists "$INSTDIR\Data\${MOD_LOCALE}_main.vdf" russian_found russian_not_found
-	russian_found:
-	SetOutPath "$INSTDIR\Data"
-	File "${MOD_LOCALE}_widescreen.vdf"
-	goto end_of_test2
-	russian_not_found:
-	SetOutPath "$INSTDIR\Data"
-	File "textures_widescreen.vdf"
-	end_of_test2:
-
-SectionEnd
-
-
-Section /o "Совместимость с ноутбуками" SecAdditional_4
-
-	SetOutPath "$INSTDIR\system"
-	!insertmacro _ReplaceInFile "Gothic.ini" "sightValue=14" "sightValue=9"
-	!insertmacro _ReplaceInFile "Gothic.ini" "zDetailTexturesEnabled=1" "zDetailTexturesEnabled=0"
-	!insertmacro _ReplaceInFile "SystemPack.ini" "Disable_D3DVBCAPS_WRITEONLY=1" "Disable_D3DVBCAPS_WRITEONLY=0"
-	!insertmacro _ReplaceInFile "SystemPack.ini" "AnisotropicFiltering=16" "AnisotropicFiltering=0"
-
-SectionEnd
 
 
 ###################################
 ##     Описание компонентов      ##
 ###################################
 
-LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты Gothic Steam Fix (SystemPack, Player Kit, патч 1.08k)."
+LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты сборника (Union 1.0h, SystemPack 1.9, Player Kit, патч 1.08k)."
 LangString DESC_Group1 ${LANG_RUSSIAN} "Выбор компонентов русификации игры."
-LangString DESC_SecAdditional_1 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от ${MOD_LOCALE_DISPLAY_RU}."
-LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русскую озвучку и видео от ${MOD_LOCALE_DISPLAY_RU}."
-LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если у вашего ПК широкоформатный монитор (16x9 или 16х10)." 
-LangString DESC_SecAdditional_4 ${LANG_RUSSIAN} "Выберите эту опцию, если предполагается запуск игры на ноутбуке."
+LangString DESC_SecAdditional_1 ${LANG_RUSSIAN} "Использование 4 ГБ оперативной памяти вместо 2 ГБ. Только для 64-битных систем!"
+LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от ${MOD_LOCALE_DISPLAY_RU}."
+LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русскую озвучку и видео от ${MOD_LOCALE_DISPLAY_RU}."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 !insertmacro MUI_DESCRIPTION_TEXT ${SecMain} $(DESC_SecMain)
@@ -322,7 +230,6 @@ LangString DESC_SecAdditional_4 ${LANG_RUSSIAN} "Выберите эту опцию, если предпо
 !insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_1} $(DESC_SecAdditional_1)
 !insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_2} $(DESC_SecAdditional_2)
 !insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_3} $(DESC_SecAdditional_3)
-!insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_4} $(DESC_SecAdditional_4)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ###################################
@@ -344,16 +251,6 @@ Function .onInit
 	StrCpy $DirectoryText "Нажмите кнопку 'Обзор ...' и укажите папку, в которой установлена Gothic. Как правило, это Steam\steamapps\common\Gothic. \
 $\n$\nЗатем нажмите кнопку 'Далее' для продолжения."
 	InstallPathIsGood:
-	System::Call 'user32::GetSystemMetrics(i 0) i .r0'
-	System::Call 'user32::GetSystemMetrics(i 1) i .r1'
-	StrCpy $RESX $0
-	StrCpy $RESY $1
-	System::Call kernel32::GetSystemDEPPolicy()i.r3
-	StrCmp $3 "error" skipDEP
-	IntCmp $3 ${DEP_SYSTEM_POLICY_TYPE_ALWAYSOFF} skipDEP
-	IntCmp $3 ${DEP_SYSTEM_POLICY_TYPE_OPTIN} skipDEP
-	MessageBox MB_OK|MB_ICONEXCLAMATION "Включена система предотвращения выполнения данных Windows (DEP). Отключите её и перезагрузите компьютер для избежания вылета при начале новой игры."
-	skipDEP:
 FunctionEnd
 
 Function .onVerifyInstDir
