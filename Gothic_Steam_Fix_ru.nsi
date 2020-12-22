@@ -45,8 +45,8 @@ var DirectoryText
 ##            Основное           ##
 ###################################
 
-!define MOD_VERSION "08.2020"
-!define MOD_DETAILED_VERSION "20.8.2.0"
+!define MOD_VERSION "12.2020"
+!define MOD_DETAILED_VERSION "20.12.22.0"
 !define MOD_NAME "Gothic Steam Fix"
 !define MOD_AUTHOR "D36"
 
@@ -162,10 +162,18 @@ Section /o "Расширение доступной памяти" SecAdditional_1
 SectionEnd
 
 
+Section /o "Поддержка геймпада" SecAdditional_2
+
+	SetOutPath "$INSTDIR\Data"
+	File "zGamePad.vdf"
+
+SectionEnd
+
+
 SectionGroup /e "Русификация от ${MOD_LOCALE_DISPLAY_RU}" Group1
 
 
-Section "Текст и субтитры" SecAdditional_2
+Section "Текст и субтитры" SecAdditional_3
 
 	CreateDirectory "$INSTDIR\saves_${MOD_LOCALE}_fix\current"
 
@@ -193,7 +201,7 @@ Section "Текст и субтитры" SecAdditional_2
 SectionEnd
 
 
-Section "Озвучка и видео" SecAdditional_3
+Section "Озвучка и видео" SecAdditional_4
 	
 	!insertmacro GMF_Delete "$INSTDIR\Data\speech_babe_speech_engl.vdf"
 	!insertmacro GMF_Delete "$INSTDIR\Data\speech_patch2.vdf"
@@ -221,8 +229,9 @@ SectionGroupEnd
 LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты сборника (Union 1.0h, SystemPack 1.9, Player Kit, патч 1.08k)."
 LangString DESC_Group1 ${LANG_RUSSIAN} "Выбор компонентов русификации игры."
 LangString DESC_SecAdditional_1 ${LANG_RUSSIAN} "Использование 4 ГБ оперативной памяти вместо 2 ГБ. Только для 64-битных систем!"
-LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от ${MOD_LOCALE_DISPLAY_RU}."
-LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русскую озвучку и видео от ${MOD_LOCALE_DISPLAY_RU}."
+LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите играть на геймпаде."
+LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от ${MOD_LOCALE_DISPLAY_RU}."
+LangString DESC_SecAdditional_4 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русскую озвучку и видео от ${MOD_LOCALE_DISPLAY_RU}."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 !insertmacro MUI_DESCRIPTION_TEXT ${SecMain} $(DESC_SecMain)
@@ -230,6 +239,7 @@ LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите
 !insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_1} $(DESC_SecAdditional_1)
 !insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_2} $(DESC_SecAdditional_2)
 !insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_3} $(DESC_SecAdditional_3)
+!insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_4} $(DESC_SecAdditional_4)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ###################################
