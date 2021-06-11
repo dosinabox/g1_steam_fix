@@ -20,8 +20,8 @@ var DirectoryText
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "04.2021"
-!define MOD_DETAILED_VERSION "21.4.1.0"
+!define MOD_VERSION "06.2021"
+!define MOD_DETAILED_VERSION "21.6.11.0"
 !define MOD_AUTHOR "D36"
 
 Name "${MOD_NAME}"
@@ -44,7 +44,7 @@ VIAddVersionKey "ProductVersion" "${MOD_VERSION}"
 
 Caption "${MOD_NAME}"
 !define MUI_TEXT_WELCOME_INFO_TITLE "$\t   $\n$\t${MOD_NAME}"
-!define MUI_TEXT_WELCOME_INFO_TEXT "'Gothic Steam Fix' is an all-in-one solution of the most known 'Gothic' problems on modern PCs. This pack includes official 1.08k patch, Union 1.0j, SystemPack 1.9 and Player Kit 2.8 and fully compatible with english, deutsch, spanish and polish versions of the game."
+!define MUI_TEXT_WELCOME_INFO_TEXT "'Gothic Steam Fix' is an all-in-one solution of the most known 'Gothic' problems on modern PCs. This pack includes official 1.08k patch, Union 1.0k, SystemPack 1.9 and Player Kit 2.8 and fully compatible with english, deutsch, spanish and polish versions of the game."
 
 !define MUI_TEXT_DIRECTORY_SUBTITLE " "
 DirText $DirectoryText
@@ -93,6 +93,10 @@ Section "Main" SecMain
 	CreateDirectory "$INSTDIR\_work\data\textures\_compiled"
 	CreateDirectory "$INSTDIR\Saves\Current"
 	CreateDirectory "$INSTDIR\Data\ModVDF"
+
+	SetOutPath "$INSTDIR"
+	File "vcredist_2010_x86.exe"
+	Exec "vcredist_2010_x86.exe /q /norestart"
 
 	SetOutPath "$INSTDIR\Data"
 	File "Union.vdf"
