@@ -20,8 +20,8 @@ var DirectoryText
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "11.2021"
-!define MOD_DETAILED_VERSION "21.11.1.0"
+!define MOD_VERSION "12.2021"
+!define MOD_DETAILED_VERSION "21.12.19.0"
 !define MOD_AUTHOR "D36"
 
 Name "${MOD_NAME}"
@@ -80,19 +80,13 @@ Section "Main" SecMain
 	SectionIn RO
 
 	Delete "$INSTDIR\VDFS.dmp"
-	Delete "$INSTDIR\system\ddraw.dll"
 	Delete "$INSTDIR\system\dinput.dll"
 	Delete "$INSTDIR\Data\textures_bikini.vdf"
 	Delete "$INSTDIR\Data\textures_apostroph_patch_neu.vdf"
 	Delete "$INSTDIR\Data\textures_choicebox_32pixel_modialpha.vdf"
-	Delete "$INSTDIR\Data\Gothic_Mod_Fix_Beta.vdf"
 	Delete "$INSTDIR\Data\SystemPack.vdf"
 	Delete "$INSTDIR\_work\data\video\logo1.bik"
 	Delete "$INSTDIR\_work\data\video\logo2.bik"
-
-	CreateDirectory "$INSTDIR\_work\data\textures\_compiled"
-	CreateDirectory "$INSTDIR\Saves\Current"
-	CreateDirectory "$INSTDIR\Data\ModVDF"
 
 	SetOutPath "$INSTDIR"
 	File "vcredist_2010_x86.exe"
@@ -103,15 +97,10 @@ Section "Main" SecMain
 
 	SetOutPath "$INSTDIR\system"
 	File "binkw32.dll"
-	File "Gothic.exe"
 	File "Gothic.ini"
-	File "GothicMod.exe"
-	File "GothicStarter.exe"
 	File "Shw32.dll"
 	File "vdfs32g.dll"
 	File "Union.patch"
-	File "original.rtf"
-	!insertmacro GMF_File_Rename "GothicGame_original.ini" "GothicGame.ini"
 	!insertmacro GMF_File_Rename "SystemPack_int.ini" "SystemPack.ini"
 
 	SetOutPath "$INSTDIR\system\autorun"

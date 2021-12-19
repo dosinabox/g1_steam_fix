@@ -16,11 +16,6 @@ var DirectoryText
 	Rename "${FILENAME_1}" "${FILENAME_2}"
 !macroend
 
-!macro GMF_Delete FILENAME
-	IfFileExists "${FILENAME}" "" +2
-	Delete "${FILENAME}"
-!macroend
-
 ###################################
 ##       Режимы компиляции       ##
 ###################################
@@ -46,8 +41,8 @@ var DirectoryText
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "11.2021"
-!define MOD_DETAILED_VERSION "21.11.1.0"
+!define MOD_VERSION "12.2021"
+!define MOD_DETAILED_VERSION "21.12.19.0"
 !define MOD_AUTHOR "D36"
 
 Name "${MOD_NAME}"
@@ -112,19 +107,13 @@ BrandingText " "
 Section "Основные патчи и обновления" SecMain
 	SectionIn RO
 
-	!insertmacro GMF_Delete "$INSTDIR\VDFS.dmp"
-	!insertmacro GMF_Delete "$INSTDIR\system\ddraw.dll"
-	!insertmacro GMF_Delete "$INSTDIR\system\dinput.dll"
-	!insertmacro GMF_Delete "$INSTDIR\Data\textures_bikini.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\textures_apostroph_patch_neu.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\textures_choicebox_32pixel_modialpha.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\Gothic_Mod_Fix_Beta.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\SystemPack.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\_work\data\video\logo2.bik"
-
-	CreateDirectory "$INSTDIR\_work\data\textures\_compiled"
-	CreateDirectory "$INSTDIR\Saves\Current"
-	CreateDirectory "$INSTDIR\Data\ModVDF"
+	Delete "$INSTDIR\VDFS.dmp"
+	Delete "$INSTDIR\system\dinput.dll"
+	Delete "$INSTDIR\Data\textures_bikini.vdf"
+	Delete "$INSTDIR\Data\textures_apostroph_patch_neu.vdf"
+	Delete "$INSTDIR\Data\textures_choicebox_32pixel_modialpha.vdf"
+	Delete "$INSTDIR\Data\SystemPack.vdf"
+	Delete "$INSTDIR\_work\data\video\logo2.bik"
 
 	SetOutPath "$INSTDIR"
 	File "vcredist_2010_x86.exe"
@@ -141,10 +130,8 @@ Section "Основные патчи и обновления" SecMain
 
 	SetOutPath "$INSTDIR\system"
 	File "binkw32.dll"
-	File "Gothic.exe"
-	File "Gothic.ini"
 	File "GothicMod.exe"
-	File "GothicStarter.exe"
+	File "Gothic.ini"
 	File "Shw32.dll"
 	File "SystemPack.ini"
 	File "vdfs32g.dll"
@@ -158,15 +145,7 @@ Section "Основные патчи и обновления" SecMain
 SectionEnd
 
 
-Section /o "Расширение доступной памяти" SecAdditional_1
-
-	SetOutPath "$INSTDIR\system"
-	!insertmacro GMF_File_Rename "GothicMod_4gb.exe" "GothicMod.exe"
-
-SectionEnd
-
-
-Section /o "Поддержка геймпада" SecAdditional_2
+Section /o "Поддержка геймпада" SecAdditional_1
 
 	SetOutPath "$INSTDIR\Data\Plugins"
 	File "zGamePad.vdf"
@@ -177,7 +156,7 @@ SectionEnd
 SectionGroup /e "Русификация от ${MOD_LOCALE_DISPLAY_RU}" Group1
 
 
-Section "Текст и субтитры" SecAdditional_3
+Section "Текст и субтитры" SecAdditional_2
 
 	CreateDirectory "$INSTDIR\saves_${MOD_LOCALE}_fix\current"
 
@@ -205,10 +184,10 @@ Section "Текст и субтитры" SecAdditional_3
 SectionEnd
 
 
-Section "Озвучка и видео" SecAdditional_4
+Section "Озвучка и видео" SecAdditional_3
 	
-	!insertmacro GMF_Delete "$INSTDIR\Data\speech_babe_speech_engl.vdf"
-	!insertmacro GMF_Delete "$INSTDIR\Data\speech_patch2.vdf"
+	Delete "$INSTDIR\Data\speech_babe_speech_engl.vdf"
+	Delete "$INSTDIR\Data\speech_patch2.vdf"
 
 	SetOutPath "$INSTDIR\Data"
 	!insertmacro GMF_File_Rename "${MOD_LOCALE}_speech.vdf" "speech.vdf"
@@ -230,12 +209,11 @@ SectionGroupEnd
 ##     Описание компонентов      ##
 ###################################
 
-LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты сборника (Union 1.0l, Player Kit, патч 1.08k)."
+LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты сборника (Union 1.0l и vcredist)."
 LangString DESC_Group1 ${LANG_RUSSIAN} "Выбор компонентов русификации игры."
-LangString DESC_SecAdditional_1 ${LANG_RUSSIAN} "Использование 4 ГБ оперативной памяти вместо 2 ГБ. Только для 64-битных систем!"
-LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите играть на геймпаде."
-LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от ${MOD_LOCALE_DISPLAY_RU}."
-LangString DESC_SecAdditional_4 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русскую озвучку и видео от ${MOD_LOCALE_DISPLAY_RU}."
+LangString DESC_SecAdditional_1 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите играть на геймпаде."
+LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от ${MOD_LOCALE_DISPLAY_RU}."
+LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русскую озвучку и видео от ${MOD_LOCALE_DISPLAY_RU}."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 !insertmacro MUI_DESCRIPTION_TEXT ${SecMain} $(DESC_SecMain)
@@ -243,7 +221,6 @@ LangString DESC_SecAdditional_4 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите
 !insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_1} $(DESC_SecAdditional_1)
 !insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_2} $(DESC_SecAdditional_2)
 !insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_3} $(DESC_SecAdditional_3)
-!insertmacro MUI_DESCRIPTION_TEXT ${SecAdditional_4} $(DESC_SecAdditional_4)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ###################################
