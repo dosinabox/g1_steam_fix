@@ -41,8 +41,8 @@ var DirectoryText
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "12.2021"
-!define MOD_DETAILED_VERSION "21.12.19.0"
+!define MOD_VERSION "07.2022"
+!define MOD_DETAILED_VERSION "22.7.1.0"
 !define MOD_AUTHOR "D36"
 
 Name "${MOD_NAME}"
@@ -116,10 +116,6 @@ Section "Основные патчи и обновления" SecMain
 	Delete "$INSTDIR\_work\data\video\logo2.bik"
 
 	SetOutPath "$INSTDIR"
-	File "vcredist_2010_x86.exe"
-	Exec "vcredist_2010_x86.exe /q /norestart"
-
-	SetOutPath "$INSTDIR"
 	File "Union.url"
 
 	SetOutPath "$INSTDIR\_work\data\video"
@@ -128,14 +124,19 @@ Section "Основные патчи и обновления" SecMain
 	SetOutPath "$INSTDIR\Data"
 	File "Union.vdf"
 
+	SetOutPath "$INSTDIR\launcher"
+	File "d3d11.dll"
+
 	SetOutPath "$INSTDIR\system"
 	File "binkw32.dll"
-	File "GothicMod.exe"
 	File "Gothic.ini"
+	File "Mss32.dll"
+	File "msvcp100.dll"
+	File "msvcr100.dll"
 	File "Shw32.dll"
 	File "SystemPack.ini"
-	File "vdfs32g.dll"
 	File "Union.patch"
+	File "vdfs32g.dll"
 	File "${MOD_LOCALE}.rtf"
 	!insertmacro GMF_File_Rename "GothicGame_${MOD_LOCALE}.ini" "GothicGame.ini"
 
@@ -209,7 +210,7 @@ SectionGroupEnd
 ##     Описание компонентов      ##
 ###################################
 
-LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты сборника (Union 1.0l и vcredist)."
+LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты сборника (Union 1.0m, оптимизатор лаунчера)."
 LangString DESC_Group1 ${LANG_RUSSIAN} "Выбор компонентов русификации игры."
 LangString DESC_SecAdditional_1 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите играть на геймпаде."
 LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от ${MOD_LOCALE_DISPLAY_RU}."
