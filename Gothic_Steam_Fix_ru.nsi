@@ -3,50 +3,18 @@ SetCompressor lzma
 var DirectoryText
 
 !include "MUI.nsh"
-!include "FileFunc.nsh"
-
-###################################
-##            Макросы            ##
-###################################
-
-!macro GMF_File_Rename FILENAME_1 FILENAME_2
-	File "${FILENAME_1}"
-	IfFileExists "${FILENAME_2}" "" +2
-	Delete "${FILENAME_2}"
-	Rename "${FILENAME_1}" "${FILENAME_2}"
-!macroend
-
-###################################
-##       Режимы компиляции       ##
-###################################
-
-!define SNOWBALL_SYS "snowball"
-!define SNOWBALL_DISPLAY "Snowball"
-!define RUSSOBIT_SYS "russobit"
-!define RUSSOBIT_DISPLAY "Russobit-M"
-!define RUSSOBIT_DISPLAY_RU "Руссобит-М"
-
-# Руссобит-М:
-!define MOD_LOCALE "${RUSSOBIT_SYS}"
-!define MOD_LOCALE_DISPLAY "${RUSSOBIT_DISPLAY}"
-!define MOD_LOCALE_DISPLAY_RU "${RUSSOBIT_DISPLAY_RU}"
-
-# Snowball:
-#!define MOD_LOCALE "${SNOWBALL_SYS}"
-#!define MOD_LOCALE_DISPLAY "${SNOWBALL_DISPLAY}"
-#!define MOD_LOCALE_DISPLAY_RU "${SNOWBALL_DISPLAY}"
 
 ###################################
 ##            Основное           ##
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "07.2022"
-!define MOD_DETAILED_VERSION "22.7.1.0"
+!define MOD_VERSION "10.2023"
+!define MOD_DETAILED_VERSION "23.10.1.0"
 !define MOD_AUTHOR "D36"
 
 Name "${MOD_NAME}"
-OutFile "Gothic_Steam_Fix_RU_${MOD_LOCALE_DISPLAY}_${MOD_VERSION}.exe"
+OutFile "Gothic_Steam_Fix_RU_${MOD_VERSION}.exe"
 
 VIProductVersion "${MOD_DETAILED_VERSION}"
 VIAddVersionKey "FileVersion" "${MOD_DETAILED_VERSION}"
@@ -60,12 +28,12 @@ VIAddVersionKey "ProductVersion" "${MOD_VERSION}"
 
 !define MUI_ICON "icon.ico"
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "logo_${MOD_LOCALE}.bmp"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "pic_${MOD_LOCALE}.bmp"
+!define MUI_HEADERIMAGE_BITMAP "logo.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "pic.bmp"
 
-Caption "${MOD_NAME} (${MOD_LOCALE_DISPLAY_RU})"
+Caption "${MOD_NAME}"
 !define MUI_TEXT_WELCOME_INFO_TITLE "$\t   $\n$\t${MOD_NAME}"
-!define MUI_TEXT_WELCOME_INFO_TEXT "Данный сборник исправлений предназначен для установки на чистую Steam-версию Gothic без других патчей и модов."
+!define MUI_TEXT_WELCOME_INFO_TEXT "Данный сборник исправлений предназначен для установки на чистую Steam-версию Gothic без других патчей и модов.$\n$\nВнимание! Начиная с октября 2023 года в сборник не включается русификация от Snowball, так как она стала официально доступна в Steam-версии игры. Проверьте свойства игры в библиотеке, чтобы сменить её язык, и после обновления продолжайте установку сборника. Если по какой-то причине вам нужна русификация в составе Gothic Steam Fix, то используйте архив версий на GitHub проекта: https://github.com/dosinabox/g1_steam_fix/releases"
 
 !define MUI_TEXT_DIRECTORY_SUBTITLE " "
 DirText $DirectoryText
@@ -116,6 +84,7 @@ Section "Основные патчи и обновления" SecMain
 	Delete "$INSTDIR\_work\data\video\logo2.bik"
 
 	SetOutPath "$INSTDIR"
+	File "GothicModFix_(Snowball)_ReadMe.txt"
 	File "Union.url"
 
 	SetOutPath "$INSTDIR\_work\data\video"
@@ -124,21 +93,28 @@ Section "Основные патчи и обновления" SecMain
 	SetOutPath "$INSTDIR\Data"
 	File "Union.vdf"
 
+	SetOutPath "$INSTDIR\Data\ModVDF"
+	File "snowball_fix.mod"
+	File "snowball_fix_speech.mod"
+	File "snowball_models.mod"
+
 	SetOutPath "$INSTDIR\launcher"
 	File "d3d11.dll"
 
 	SetOutPath "$INSTDIR\system"
 	File "binkw32.dll"
 	File "Gothic.ini"
+	File "GothicGame.ini"
 	File "Mss32.dll"
 	File "msvcp100.dll"
 	File "msvcr100.dll"
 	File "Shw32.dll"
+	File "snowball_fix.ini"
+	File "snowball_fix.rtf"
+	File "stdhost.exe"
 	File "SystemPack.ini"
 	File "Union.patch"
 	File "vdfs32g.dll"
-	File "${MOD_LOCALE}.rtf"
-	!insertmacro GMF_File_Rename "GothicGame_${MOD_LOCALE}.ini" "GothicGame.ini"
 
 	SetOutPath "$INSTDIR\system\autorun"
 	File "AutoScreenRes.dll"
@@ -154,52 +130,53 @@ Section /o "Поддержка геймпада" SecAdditional_1
 SectionEnd
 
 
-SectionGroup /e "Русификация от ${MOD_LOCALE_DISPLAY_RU}" Group1
+SectionGroup /e "Русификация от Руссобит-М" Group1
 
 
-Section "Текст и субтитры" SecAdditional_2
+Section /o "Текст и субтитры" SecAdditional_2
 
-	CreateDirectory "$INSTDIR\saves_${MOD_LOCALE}_fix\current"
+	CreateDirectory "$INSTDIR\saves_russobit_fix\current"
 
 	SetOutPath "$INSTDIR\Data"
-	File "${MOD_LOCALE}_main.vdf"
+	File "russobit_main.vdf"
 
 	SetOutPath "$INSTDIR\Data\ModVDF"
-	File "${MOD_LOCALE}_fix.mod"
-	File "${MOD_LOCALE}_models.mod"
+	File "russobit_fix.mod"
+	File "russobit_models.mod"
 
 	SetOutPath "$INSTDIR"
-	File "GothicModFix_(${MOD_LOCALE_DISPLAY})_ReadMe.txt"
+	File "GothicModFix_(Russobit-M)_ReadMe.txt"
 
 	SetOutPath "$INSTDIR\_work\data\scripts\_compiled"
-	!insertmacro GMF_File_Rename "menu_${MOD_LOCALE}.dat" "MENU.DAT"
-	!insertmacro GMF_File_Rename "gothic_${MOD_LOCALE}_original.dat" "GOTHIC.DAT"
+	File "MENU.DAT"
+	File "GOTHIC.DAT"
 
 	SetOutPath "$INSTDIR\_work\data\scripts\content\cutscene"
-	!insertmacro GMF_File_Rename "OU_${MOD_LOCALE}_original.bin" "OU.BIN"
+	File "OU.BIN"
 
 	SetOutPath "$INSTDIR\system"
-	File "${MOD_LOCALE}_fix.ini"
-	File "${MOD_LOCALE}_fix.rtf"
+	File "russobit_fix.ini"
+	File "russobit_fix.rtf"
+	File "GothicGame.rtf"
 
 SectionEnd
 
 
-Section "Озвучка и видео" SecAdditional_3
+Section /o "Озвучка и видео" SecAdditional_3
 	
 	Delete "$INSTDIR\Data\speech_babe_speech_engl.vdf"
 	Delete "$INSTDIR\Data\speech_patch2.vdf"
 
 	SetOutPath "$INSTDIR\Data"
-	!insertmacro GMF_File_Rename "${MOD_LOCALE}_speech.vdf" "speech.vdf"
+	File "speech.vdf"
 
 	SetOutPath "$INSTDIR\Data\ModVDF"
-	File "${MOD_LOCALE}_fix_speech.mod"
+	File "russobit_fix_speech.mod"
 
 	SetOutPath "$INSTDIR\_work\data\video"
-	!insertmacro GMF_File_Rename "greatPrayer_${MOD_LOCALE}.bik" "greatPrayer.bik"
-	!insertmacro GMF_File_Rename "intro_${MOD_LOCALE}.bik" "intro.bik"
-	!insertmacro GMF_File_Rename "playerout_${MOD_LOCALE}.bik" "playerout.bik"
+	File "greatPrayer.bik"
+	File "intro.bik"
+	File "playerout.bik"
 
 SectionEnd
 
@@ -213,8 +190,8 @@ SectionGroupEnd
 LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты сборника (Union 1.0m, оптимизатор лаунчера)."
 LangString DESC_Group1 ${LANG_RUSSIAN} "Выбор компонентов русификации игры."
 LangString DESC_SecAdditional_1 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите играть на геймпаде."
-LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от ${MOD_LOCALE_DISPLAY_RU}."
-LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русскую озвучку и видео от ${MOD_LOCALE_DISPLAY_RU}."
+LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от Руссобит-М."
+LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русскую озвучку и видео от Руссобит-М."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 !insertmacro MUI_DESCRIPTION_TEXT ${SecMain} $(DESC_SecMain)

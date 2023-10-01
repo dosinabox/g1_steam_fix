@@ -20,8 +20,8 @@ var DirectoryText
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "07.2022"
-!define MOD_DETAILED_VERSION "22.7.1.0"
+!define MOD_VERSION "10.2023"
+!define MOD_DETAILED_VERSION "23.10.1.0"
 !define MOD_AUTHOR "D36"
 
 Name "${MOD_NAME}"
