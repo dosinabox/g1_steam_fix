@@ -1,0 +1,34 @@
+#engine [G1, G1A, G2, G2A]
+	#patch [zViewOpenPosFix]
+		// engine specific
+		INT text_zCView_ApplyOpenClose_set_posCurrent = ZenDef(0x006FD4E4, 0x007378CA, 0x0074758A, 0x007A708A)
+		INT text_zCView_ApplyOpenClose_before_UpdateClose = ZenDef(0x006FD550, 0x00737936, 0x007475F6, 0x007A70F6)
+		
+		INT field_zCView_posOpenClose_0_X = ZenDef(0xEC, 0xEC, 0xF0, 0xF0)
+		INT field_zCView_posOpenClose_0_Y = field_zCView_posOpenClose_0_X + 4
+		INT field_zCView_posOpenClose_1_X = field_zCView_posOpenClose_0_Y + 4
+		INT field_zCView_posOpenClose_1_Y = field_zCView_posOpenClose_1_X + 4
+		// end of engine specific
+		
+		#assembler [text_zCView_ApplyOpenClose_set_posCurrent]
+			orgcode
+			mov ecx, [esi]
+			mov [ebp+$field_zCView_posOpenClose_0_X], ecx
+			mov ecx, [esi+4]
+			mov [ebp+$field_zCView_posOpenClose_0_Y], ecx
+			mov ecx, [edi]
+			mov [ebp+$field_zCView_posOpenClose_1_X], ecx
+			mov ecx, [edi+4]
+			mov [ebp+$field_zCView_posOpenClose_1_Y], ecx
+		#/assembler
+		
+		#assembler [text_zCView_ApplyOpenClose_before_UpdateClose]
+			xor eax, eax
+			mov [ebp+$field_zCView_posOpenClose_0_X], eax
+			mov [ebp+$field_zCView_posOpenClose_0_Y], eax
+			mov [ebp+$field_zCView_posOpenClose_1_X], eax
+			mov [ebp+$field_zCView_posOpenClose_1_Y], eax
+			orgcode
+		#/assembler
+	#/patch
+#/engine

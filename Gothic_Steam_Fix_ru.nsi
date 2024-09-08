@@ -118,6 +118,10 @@ Section "Основные патчи и обновления" SecMain
 
 	SetOutPath "$INSTDIR\system\autorun"
 	File "AutoScreenRes.dll"
+	File "zUniqueSoundHandle.patch"
+	File "zRefuseTalkG2ControlFix.patch"
+	File "ONE_BUTTON_CONTROL_fix.patch"
+	File "zViewOpenPosFix.patch"
 
 SectionEnd
 

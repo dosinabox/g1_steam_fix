@@ -1,0 +1,17 @@
+#engine [G1, G1A]
+	#patch [zUniqueSoundHandle]
+		// engine specific
+		INT text_zCActiveSnd_GetNextFreeHandle_jnz_num_active_sounds = ZenDef(0x004E86FC, 0x004FA8DC, 0x00000000, 0x00000000)
+		INT text_zCSndSys_MSS_PlaySound_1_jnz_num_active_sounds = ZenDef(0x004E2239, 0x004F3EDA, 0x00000000, 0x00000000)
+		INT text_zCSndSys_MSS_PlaySound_2_jnz_num_active_sounds = ZenDef(0x004E330F, 0x004F5132, 0x00000000, 0x00000000)
+		INT text_zCSndSys_MSS_PlaySound3D_1_jnz_num_active_sounds = ZenDef(0x004E3AD6, 0x004F595C, 0x00000000, 0x00000000)
+		INT text_zCSndSys_MSS_PlaySound3DAmbient_jnz_num_active_sounds = ZenDef(0x004E428C, 0x004F616E, 0x00000000, 0x00000000)
+		// end of engine specific
+		
+		HEX @text_zCActiveSnd_GetNextFreeHandle_jnz_num_active_sounds = '90 90'
+		HEX @text_zCSndSys_MSS_PlaySound_1_jnz_num_active_sounds = '90 90'
+		HEX @text_zCSndSys_MSS_PlaySound_2_jnz_num_active_sounds = '90 90'
+		HEX @text_zCSndSys_MSS_PlaySound3D_1_jnz_num_active_sounds = '90 90'
+		HEX @text_zCSndSys_MSS_PlaySound3DAmbient_jnz_num_active_sounds = '90 90'
+	#/patch
+#/engine

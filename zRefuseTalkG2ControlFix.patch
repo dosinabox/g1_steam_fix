@@ -1,0 +1,23 @@
+#engine [G1]
+	#patch [zRefuseTalkG2ControlFix]
+		IF BOOL @SYSTEMPACK:PARAMETERS:Gothic2_Control
+			// engine specific
+			INT text_oCAIHuman_PC_ActionMove_jz_pressed = 0x00613B6C
+			
+			INT func_oCAIHuman_Toggled = 0x0060F940
+			
+			INT const_GAME_ACTION = 5
+			// end of engine specific
+			
+			#assembler [text_oCAIHuman_PC_ActionMove_jz_pressed]
+				orgcode
+				mov eax, $const_GAME_ACTION
+				push eax
+				mov ecx, ebp
+				call $func_oCAIHuman_Toggled
+				test eax, eax
+				orgcode
+			#/assembler
+		END
+	#/patch
+#/engine
