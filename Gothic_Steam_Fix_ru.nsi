@@ -1,5 +1,5 @@
 Unicode true
-SetCompressor lzma
+SetCompressor /SOLID /FINAL lzma
 var DirectoryText
 
 !include "MUI.nsh"
@@ -9,8 +9,8 @@ var DirectoryText
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "10.2023"
-!define MOD_DETAILED_VERSION "23.10.1.0"
+!define MOD_VERSION "08.2026"
+!define MOD_DETAILED_VERSION "26.8.5.0"
 !define MOD_AUTHOR "D36"
 
 Name "${MOD_NAME}"
@@ -122,15 +122,12 @@ Section "Основные патчи и обновления" SecMain
 	File "zRefuseTalkG2ControlFix.patch"
 	File "ONE_BUTTON_CONTROL_fix.patch"
 	File "zViewOpenPosFix.patch"
-
 SectionEnd
 
 
 Section /o "Поддержка геймпада" SecAdditional_1
-
 	SetOutPath "$INSTDIR\Data\Plugins"
 	File "zGamePad.vdf"
-
 SectionEnd
 
 
@@ -138,7 +135,6 @@ SectionGroup /e "Русификация от Руссобит-М" Group1
 
 
 Section /o "Текст и субтитры" SecAdditional_2
-
 	CreateDirectory "$INSTDIR\saves_russobit_fix\current"
 
 	SetOutPath "$INSTDIR\Data"
@@ -162,12 +158,10 @@ Section /o "Текст и субтитры" SecAdditional_2
 	File "russobit_fix.ini"
 	File "russobit_fix.rtf"
 	File "GothicGame.rtf"
-
 SectionEnd
 
 
 Section /o "Озвучка и видео" SecAdditional_3
-	
 	Delete "$INSTDIR\Data\speech_babe_speech_engl.vdf"
 	Delete "$INSTDIR\Data\speech_patch2.vdf"
 
@@ -181,7 +175,6 @@ Section /o "Озвучка и видео" SecAdditional_3
 	File "greatPrayer.bik"
 	File "intro.bik"
 	File "playerout.bik"
-
 SectionEnd
 
 SectionGroupEnd
@@ -191,7 +184,7 @@ SectionGroupEnd
 ##     Описание компонентов      ##
 ###################################
 
-LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты сборника (Union 1.0m, оптимизатор лаунчера)."
+LangString DESC_SecMain ${LANG_RUSSIAN} "Основные компоненты сборника (Union 1.0m, оптимизатор лаунчера, Mod Fix)."
 LangString DESC_Group1 ${LANG_RUSSIAN} "Выбор компонентов русификации игры."
 LangString DESC_SecAdditional_1 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите играть на геймпаде."
 LangString DESC_SecAdditional_2 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите установить русский текст и субтитры от Руссобит-М."
@@ -210,7 +203,6 @@ LangString DESC_SecAdditional_3 ${LANG_RUSSIAN} "Выберите эту опцию, если хотите
 ###################################
 
 Function .onInit
-	SetSilent normal
 	StrCpy $DirectoryText "Обнаружена установленная Steam-версия Gothic. Нажмите кнопку 'Далее' для продолжения или 'Обзор ...' для выбора другой папки."
 	SetRegView 32
 	ReadRegStr $INSTDIR HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 65540" "InstallLocation"

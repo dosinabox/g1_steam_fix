@@ -1,4 +1,4 @@
-SetCompressor lzma
+SetCompressor /SOLID /FINAL lzma
 var DirectoryText
 
 !include "MUI.nsh"
@@ -20,8 +20,8 @@ var DirectoryText
 ###################################
 
 !define MOD_NAME "Gothic Steam Fix"
-!define MOD_VERSION "10.2023"
-!define MOD_DETAILED_VERSION "23.10.1.0"
+!define MOD_VERSION "08.2026"
+!define MOD_DETAILED_VERSION "26.8.5.0"
 !define MOD_AUTHOR "D36"
 
 Name "${MOD_NAME}"
@@ -111,7 +111,6 @@ Section "Main" SecMain
 	File "zRefuseTalkG2ControlFix.patch"
 	File "ONE_BUTTON_CONTROL_fix.patch"
 	File "zViewOpenPosFix.patch"
-
 SectionEnd
 
 ###################################
@@ -119,7 +118,6 @@ SectionEnd
 ###################################
 
 Function .onInit
-	SetSilent normal
 	StrCpy $DirectoryText "Gothic installation folder is found, press 'Install' button to continue or 'Browse...' to select another install location."
 	SetRegView 32
 	ReadRegStr $INSTDIR HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 65540" "InstallLocation"
