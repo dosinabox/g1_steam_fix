@@ -1,0 +1,22 @@
+#engine [G1, G1A]
+	#patch [zUseItemDissapearanceFix]
+		// engine specific
+		INT text_oCNpc_EV_UseItem_push_zero = ZenDef(0x006AFC2B, 0x006E3AAB, 0x00000000, 0x00000000)
+		INT text_oCNpc_EV_UseItem_vcall_csg_SetInUse = ZenDef(0x006AFC35, 0x006E3AB8, 0x00000000, 0x00000000)
+		INT text_oCNpc_EV_UseItemToState_after_init = ZenDef(0x006AFF42, 0x006E3E14, 0x00000000, 0x00000000)
+		
+		INT field_oCNpc_interactItemTargetState = ZenDef(0x9A8, 0x9AC, 0x8DC, 0x970)
+		INT field_oCMsgManipulate_targetState = ZenDef(0x78, 0x80, 0x78, 0x78)
+		// end of engine specific
+		
+		HEX @text_oCNpc_EV_UseItem_push_zero = '90'
+		HEX @text_oCNpc_EV_UseItem_vcall_csg_SetInUse = '90 90 90'
+		
+		#assembler [text_oCNpc_EV_UseItemToState_after_init]
+			mov eax, [esp+0x104] ; csg
+			mov eax, [eax+$field_oCMsgManipulate_targetState]
+			mov [esi+$field_oCNpc_interactItemTargetState], eax
+			orgcode
+		#/assembler
+	#/patch
+#/engine

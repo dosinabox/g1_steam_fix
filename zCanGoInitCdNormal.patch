@@ -1,0 +1,27 @@
+#engine [G1, G1A, G2, G2A]
+	#patch [zCanGoInitCdNormal]
+		// engine specific
+		INT text_oCNpc_CanGo_prologue_safe = ZenDef(0x0074B59B, 0x0078CD3B, 0x00797658, 0x00680B38)
+		
+		INT func_zCVob_GetAtVectorWorld = ZenDef(0x0051B3E0, 0x00514C80, 0x0052AD60, 0x0052DCB0)
+		
+		INT var_oCNpc_CanGo_cdNormal = ZenDef(0x38, 0x7C, 0x34, 0x34) + 8 + 12
+		// end of engine specific
+		
+		#assembler [text_oCNpc_CanGo_prologue_safe]
+			orgcode
+			push eax
+			push ecx
+			push edx
+			
+			mov ecx, esi
+			mov eax, [esp+$var_oCNpc_CanGo_cdNormal]
+			push eax
+			call $func_zCVob_GetAtVectorWorld
+			
+			pop edx
+			pop ecx
+			pop eax
+		#/assembler
+	#/patch
+#/engine

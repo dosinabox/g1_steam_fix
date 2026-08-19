@@ -1,0 +1,40 @@
+#engine [G1, G1A, G2, G2A]
+	#patch [zSideAttackHitFix]
+		// engine specific
+		INT engine_version = ZenDef(1, 2, 3, 4)
+		
+		INT text_oCNpc_EV_AttackLeft_set_bs_hit = ZenDef(0x006AB6AC, 0x006DE4B4, 0x006F1E18, 0x00750BF8)
+		INT text_oCNpc_EV_AttackRight_set_bs_hit = ZenDef(0x006ABE38, 0x006DEC66, 0x006F28F0, 0x007516D0)
+		
+		INT func_oCAniCtrl_Human_HitCombo = ZenDef(0x006276F0, 0x0064C770, 0x006539B0, 0x006B0260)
+		
+		INT field_oCNpc_anictrl = ZenDef(0x9B8, 0x9C0, 0x8EC, 0x980)
+		// end of engine specific
+		
+		#assembler [text_oCNpc_EV_AttackLeft_set_bs_hit]
+			mov ecx, $engine_version
+			cmp ecx, 2
+			jg use_ebp
+			
+			mov ecx, [esi+$field_oCNpc_anictrl]
+			jmp continue
+			
+		use_ebp:
+			mov ecx, [ebp+$field_oCNpc_anictrl]
+			
+		continue:
+			xor eax, eax
+			push eax
+			call $func_oCAniCtrl_Human_HitCombo
+			orgcode
+		#/assembler
+		
+		#assembler [text_oCNpc_EV_AttackRight_set_bs_hit]
+			mov ecx, [esi+$field_oCNpc_anictrl]
+			xor eax, eax
+			push eax
+			call $func_oCAniCtrl_Human_HitCombo
+			orgcode
+		#/assembler
+	#/patch
+#/engine

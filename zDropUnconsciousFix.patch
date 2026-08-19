@@ -1,0 +1,87 @@
+#engine [G1, G1A, G2, G2A]
+	#patch [zDropUnconsciousFix]
+		// engine specific
+		INT engine_version = ZenDef(1, 2, 3, 4)
+		
+		INT text_oCNpc_DropUnconscious_StopFaceAni = ZenDef(0x00692C4A, 0x006C432A, 0x006D77FD, 0x00735F5D)
+		
+		INT func_oCNpc_SetMovLock = ZenDef(0x00694C50, 0x006C6570, 0x006D9970, 0x007380B0)
+		INT func_oCNpc_CloseInventory = ZenDef(0x006BB2F0, 0x006F0200, 0x00702ED0, 0x00762410)
+		INT func_oCNpc_StopTheft = ZenDef(0x006BAFD0, 0x006EFEB0, 0x00702C20, 0x00762160)
+		INT func_oCMobInter_InterruptInteraction = ZenDef(0x0067F360, 0x006AE470, 0x006C2C50, 0x00720CE0)
+		INT func___RTDynamicCast = ZenDef(0x0077709A, 0x007BAE5A, 0x007C457A, 0x007D0A3A)
+		
+		INT vfunc_oCNpc_IsSelfPlayer = 65 * 4
+		INT vfunc_oCMobContainer_Close = ZenDef(72, 76, 76, 76) * 4
+		
+		INT field_oCNpc_interactMob = ZenDef(0x99C, 0x9A0, 0x8D0, 0x964)
+		
+		INT offset_oCNpc_game_mode = ZenDef(0x008DBC24, 0x009232EC, 0x00983320, 0x00AB27D0)
+		INT offset_oCMobContainer_type_descriptor = ZenDef(0x00847874, 0x00892530, 0x008A25C0, 0x008B634C)
+		INT offset_oCMobInter_type_descriptor = ZenDef(0x00847660, 0x0088D5F0, 0x008A2418, 0x008AF690)
+		
+		INT const_NPC_GAME_PLUNDER = 1
+		INT const_NPC_GAME_STEAL = 2
+		// end of engine specific
+		
+		#assembler [text_oCNpc_DropUnconscious_StopFaceAni]
+			mov eax, dword ptr [$engine_version]
+			cmp eax, 2
+			jg interrupt
+			
+			mov ecx, esi
+			mov edx, [ecx]
+			call [edx+$vfunc_oCNpc_IsSelfPlayer]
+			test eax, eax
+			jz interrupt
+			
+			mov eax, $offset_oCNpc_game_mode
+			mov eax, [eax]
+			cmp eax, $const_NPC_GAME_PLUNDER
+			je theft
+			
+			cmp eax, $const_NPC_GAME_STEAL
+			jne container
+			
+		theft:
+			mov ecx, esi
+			push 0
+			push ecx
+			call $func_oCNpc_StopTheft
+		
+		container:
+			push 0
+			push $offset_oCMobContainer_type_descriptor
+			push $offset_oCMobInter_type_descriptor
+			push 0
+			push dword ptr [esi+$field_oCNpc_interactMob]
+			call $func___RTDynamicCast
+			add esp, 0x14
+			test eax, eax
+			jz inventory
+			
+			mov ecx, eax
+			mov edx, [ecx]
+			push esi
+			call [edx+$vfunc_oCMobContainer_Close]
+			
+		inventory:
+			mov ecx, esi
+			call $func_oCNpc_CloseInventory
+			mov ecx, esi
+			push 0
+			call $func_oCNpc_SetMovLock
+		
+		interrupt:
+			mov ecx, [esi+$field_oCNpc_interactMob]
+			test ecx, ecx
+			jz continue
+			
+			push esi
+			call $func_oCMobInter_InterruptInteraction
+			
+		continue:
+			orgcode
+		#/assembler
+	#/patch
+#/engine

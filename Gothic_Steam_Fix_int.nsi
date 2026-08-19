@@ -111,6 +111,10 @@ Section "Main" SecMain
 	File "zRefuseTalkG2ControlFix.patch"
 	File "ONE_BUTTON_CONTROL_fix.patch"
 	File "zViewOpenPosFix.patch"
+	File "zCanGoInitCdNormal.patch"
+	File "zDropUnconsciousFix.patch"
+	File "zSideAttackHitFix.patch"
+	File "zUseItemDissapearanceFix.patch"
 SectionEnd
 
 ###################################
